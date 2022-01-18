@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>User Information and Form</title>
+
+<!--JQUERY-->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- DATA TABLE -->
+<script
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		//Asegurate que el id que le diste a la tabla sea igual al texto despues del simbolo #
+		$('#employeeList').DataTable();
+	});
+</script>
+</head>
+
+<body>
+
+	<div class="card">
+		<div class="card-header">
+			<h4>Find Employee</h4>
+		</div>
+		<div class="card-body">
+			<form class="form" role="form" autocomplete="off" method="get" th:object="${employee}" th:action="@{/findEmployee}">
+				<div class="form-group row">
+					<label class="col-lg-3 col-form-label form-control-label">First
+						name</label>
+					<div class="col-lg-9">
+						<input class="form-control" type="text" th:field="${employee.firstName}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-3 col-form-label form-control-label">Last
+						name</label>
+					<div class="col-lg-9">
+						<input class="form-control" type="text" th:field="${employee.lastName}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-lg-3 col-form-label form-control-label">Position</label>
+					<div class="col-lg-9">
+						<input class="form-control" type="text" th:field="${employee.position}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-lg-12 text-center">
+						<input type="reset" class="btn btn-secondary" value="Reset">
+						<input type="submit" class="btn btn-primary" value="Find Employee">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="card">
+			<div class="card-header">
+				<h4>Employee's list</h4>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table id="employeeList"
+						class="table table-bordered table-hover table-striped">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">First</th>
+								<th scope="col">Middle</th>
+								<th scope="col">Last</th>
+								<th scope="col">birthday</th>
+								<th scope="col">Position</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="employee: ${employeeList}">
+
+								<td th:text="${employee.id}"></td>
+								<td th:text="${employee.firstName}"></td>
+								<td th:text="${employee.midleName}"></td>
+								<td th:text="${employee.lastName}"></td>
+								<td th:text="${employee.birthDate}"></td>
+								<td th:text="${employee.position}"></td>
+
+								<td><a href="#"
+									th:href="@{'/editEmployee/'+ ${employee.id}}">editar</a> | <a
+									href="#">eliminar<i class="fas fa-user-times"></i></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+</body>
+
+</html>
