@@ -91,19 +91,18 @@
 								<td th:text="${employee.birthDate}"></td>
 								<td th:text="${employee.position}"></td>
 
-								<td><a href="#"
-									th:href="@{'/editEmployee/'+ ${employee.id}}">editar</a> | <a
-									href="#">eliminar<i class="fas fa-user-times"></i></a></td>
+								<td>
+									<a th:href="@{'/editEmployee/'+ ${employee.id}}">Edit</a> | 
+									<a th:href="@{'/compesationForm/'+ ${employee.id}}">Add Compesation</a> |
+									<a th:href="@{'/compesationFind/'+ ${employee.id}}">Comps History</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-
 	</div>
-
-
 </body>
 
 </html>

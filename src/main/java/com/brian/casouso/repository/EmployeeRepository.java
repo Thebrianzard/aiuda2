@@ -1,5 +1,6 @@
 package com.brian.casouso.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +14,9 @@ import com.brian.casouso.entity.Employee;
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, Long>{
 
-	
-	public Optional<Employee> findByfirstName(String firstname);
+	@Query("SELECT e FROM Employee e "
+				+ "WHERE e.firstName = :firstName AND e.midleName = :midleName AND e.lastName = :lastName AND e.birthDate = :birthDate")
+	public Optional<Employee> verifyEmployee(String firstName, String midleName, String lastName, LocalDate birthDate);
 	
 	@Query("SELECT e FROM Employee e "
 			+ "WHERE (:firstName = null or e.firstName like %:firstName%)"

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +28,8 @@ public class Compesation implements Serializable {
 	private Long id;
 	
 	@Column
-	private String type;
+	@Enumerated(EnumType.STRING)
+	private CompesationsType type;
 	
 	@Column
 	private Double amount;
@@ -66,11 +69,11 @@ public class Compesation implements Serializable {
 		this.id = id;
 	}
 
-	public String getType() {
+	public CompesationsType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(CompesationsType type) {
 		this.type = type;
 	}
 

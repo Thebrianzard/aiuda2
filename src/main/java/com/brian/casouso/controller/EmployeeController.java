@@ -34,7 +34,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/findEmployee")
-	public String findEmployee(@ModelAttribute("employeeForm") Employee employee, BindingResult result, Model model) {
+	public String findEmployee(@ModelAttribute("employee") Employee employee, BindingResult result, Model model) {
 		model.addAttribute("employeeList", employeeService.getEmployeesByFilter(employee));
 		model.addAttribute("employee", employee);
 		return "employee-find";
@@ -56,6 +56,7 @@ public class EmployeeController {
 			try {
 				employeeService.createEmployee(employee);
 				model.addAttribute("employeeForm", new Employee());
+				model.addAttribute("editMode", "true");
 
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
