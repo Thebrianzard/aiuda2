@@ -25,11 +25,34 @@
 
 	<div class="card">
 		<div class="card-header">
-			<h4>Roster</h4>
+			<h4>Find Compesation</h4>
 		</div>
 		<div class="card-body">
-			<!-- Lista de usuarios-->
+				<form class="form" role="form" autocomplete="off" method="get" 
+				th:action="@{/findCompesation}">
+				<div class="form-group row">
+					<label class="col-lg-3 col-form-label form-control-label">start</label>
+					<div class="col-lg-9">
+						<input class="form-control" type="date" th:name="desde" th:field="${desde}">
+					</div>
+				</div>
+			<div class="form-group row">
+					<label class="col-lg-3 col-form-label form-control-label">end</label>
+					<div class="col-lg-9">
+						<input class="form-control" type="date" th:name="hasta" th:field="${hasta}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-lg-12 text-center">
+						<input type="reset" class="btn btn-secondary" value="Reset">
+						<input type="submit" class="btn btn-primary" value="Find compesation">
+					</div>
+				</div>
+			</form>
 		</div>
+		
+		
+		
 		<div class="card">
 			<div class="card-header">
 				<h4>User Information</h4>
