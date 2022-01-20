@@ -1,6 +1,8 @@
 package com.brian.casouso.controller;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.YearMonth;
 
 import javax.validation.Valid;
 
@@ -28,10 +30,6 @@ public class CompesationController {
 
 	@Autowired
 	CompesationService compesationService;
-	
-	
-	
-	
 
 	@GetMapping("/compesationFind/{employeeId}")
 	public String getCompesationFind(@PathVariable Long employeeId, Model model) {
@@ -48,22 +46,27 @@ public class CompesationController {
 			@Valid @ModelAttribute("compesationFindForm") CompesationFindForm cff,
 			Model model) {
 		System.out.println(employeeId);
-		model.addAttribute("compesationList", compesationService.getCompesationsByDate(employeeId, cff));
+		model.addAttribute("compesationList", compesationService.getCompesationsByMonth(employeeId, cff));
 		model.addAttribute("compesationFindForm", cff);
 		model.addAttribute("employeeId", employeeId);
-
-/*
-	@GetMapping("/findCompesation")
-	public String findCompesation(@RequestParam(value = "desde") LocalDate desde,
-			@RequestParam(value = "hasta") LocalDate hasta,
-			 BindingResult result, Model model) {
-
-	//	model.addAttribute("compesationList", compesationService.getCompesationByFilter(compesation));
-		model.addAttribute("compesationList", compesationService.getCompesationByFilter(desde,hasta));
-		//model.addAttribute("compesation", compesation);
 		return "compesation-find";
-	}*/
-
+	}
+	
+	@GetMapping("/viewCompesations/{employeeId}/{month}/{year}")
+	public String getCompesations(@PathVariable(name = "month") Month month, 
+			@PathVariable(name = "employeeId") Long employeeId, 
+			@PathVariable(name = "year") int year,
+			Model model) {
+		
+		YearMonth date = YearMonth.of(year, month);
+		CompesationFindForm cff = new CompesationFindForm();
+		cff.setDesde(LocalDate.of(year, month, 1));
+		cff.setHasta(date.atEndOfMonth());
+		model.addAttribute("compesationList", compesationService.getCompesationsByIdAndDate(employeeId, cff));
+		model.addAttribute("compesationFindForm", cff);
+		model.addAttribute("employeeId", employeeId);
+		return "compesations";
+	}
 
 	
 	@GetMapping("/compesationForm/{employee_id}")
