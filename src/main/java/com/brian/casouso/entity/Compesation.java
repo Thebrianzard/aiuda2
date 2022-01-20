@@ -37,6 +37,8 @@ public class Compesation implements Serializable {
 	@Column
 	@DateTimeFormat(pattern ="yyyy-MM-dd")
 	private LocalDate date;
+	
+	
 
 	@Column
 	private Long employee_id;
@@ -97,7 +99,6 @@ public class Compesation implements Serializable {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-
 
 
 
