@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.brian.casouso.entity.Compesation;
+import com.brian.casouso.entity.Employee;
 
 @Repository
 public interface CompesationRepository extends CrudRepository<Compesation, Long>{
@@ -19,4 +20,8 @@ public interface CompesationRepository extends CrudRepository<Compesation, Long>
 			+ "WHERE c.employee_id = :employeeId and c.date BETWEEN :desde AND :hasta")
 	public List<Compesation> findByIdAndDate(Long employeeId, LocalDate desde, LocalDate hasta);
 
+
+	//	public List<Compesation> findByFilters(LocalDate desde, LocalDate hasta);
+
+	
 }

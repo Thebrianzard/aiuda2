@@ -25,20 +25,58 @@
 		</div>
 		<div class="card-body">
 
-			<form class="form" role="form" autocomplete="off" th:object="${compesationForm}" th:action="${editMode} ?@{/editCompesation}:@{/compesationForm}"
-				method="post">
-				
+			<form class="form" role="form" autocomplete="off" th:object="${compesationForm}"
+				th:action="${editMode} ?@{/editCompesation}:@{'/compesationForm/'+${employee_id}}" method="post">
+
+
+
 				<input class="form-control" type="hidden" th:field="${compesationForm.id}" th:if="${editMode}">
+
+
+
+
+
+
+
+
+
+
+
 				<div class="form-group row">
 					<label class="col-lg-3 col-form-label form-control-label">type</label>
 					<div class="col-lg-9">
-						<input class="form-control" type="text" th:field="${compesationForm.type}" name="type">
+
+						<!--<input class="form-control" type="text" th:field="${compesationForm.type}" name="type">-->
+
+						<input type="radio" id="salary" name="type" value="Salary" th:field="${compesationForm.type}">
+						<label for="Salary">Salary</label><br>
+						
+						<input type="radio" id="bonus" name="type" value="Bonus" th:field="${compesationForm.type}">
+						<label for="Salary">Bonus</label><br>
+						
+						<input type="radio" id="commission" name="type" value="Commission"
+							th:field="${compesationForm.type}">
+						<label for="Salary">Commission</label><br>
+						
+						<input type="radio" id="allowance" name="type" value="Allowance"
+							th:field="${compesationForm.type}">
+						<label for="Salary">Allowance</label><br>
+						
+						<input type="radio" id="adjustment" name="type" value="Adjustment"
+							th:field="${compesationForm.type}">
+						<label for="Salary">Adjustment</label><br>
+
 						<div class="alert-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">
 							Name Error</div>
 
 					</div>
 
 				</div>
+
+
+
+
+
 				<div class="form-group row">
 					<label class="col-lg-3 col-form-label form-control-label">Amount</label>
 					<div class="col-lg-9">
@@ -51,8 +89,12 @@
 				<div class="form-group row">
 					<label class="col-lg-3 col-form-label form-control-label">description</label>
 					<div class="col-lg-9">
-						<input class="form-control" type="text" th:field="${compesationForm.description}" name="description">
-						<div class="alert-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+						<input class="form-control" type="text" th:field="${compesationForm.description}"
+							name="description">
+
+
+						<div class="alert-danger" th:if="${#fields.hasErrors('description')}"
+							th:errors="*{description}">
 							Name Error</div>
 
 					</div>
@@ -67,31 +109,35 @@
 
 					</div>
 				</div>
-				<div class="form-group row">
-					<label class="col-lg-3 col-form-label form-control-label">employee id</label>
+
+				<!--	<div class="form-group row">
+					<label th:text="Employees" class="col-lg-3 col-form-label form-control-label"></label>
 					<div class="col-lg-9">
-						<input class="form-control" type="text" th:field="${compesationForm.employee_id}" name="employee_id">
-						<div class="alert-danger" th:if="${#fields.hasErrors('employee_id')}" th:errors="*{employee_id}">
-							Name Error</div>
-
-					</div>
-				</div>
-
-				<div class="form-group row">
-					<div class="col-lg-12 text-center">
-						<input type="reset" class="btn btn-secondary" value="Reset">
-						<a class="btn btn-secondary"  th:href="@{'/compesationForm/cancel'}">Cancel</a>
-
-						<input type="submit" class="btn btn-primary" value="Save Changes" th:value="${editMode}?'Save Compesation':'Create Compesation'">
-					</div>
-				</div>
-				<div class="alert alert-danger text-center" th:if="${formErrorMessage}" th:text="${formErrorMessage}">
-					Error MEssage</div>
-				<div class="alert alert-success text-center d-none" id="formSuccess" th:if="${editMode}">Success MEssage
-				</div>
-			</form>
-
+						<select  class="form-control" th:field="${compesationForm.employees}">
+							<option th:each="employee :${employees}" th:value="${employee.id}" th:text="${employee.firstName}">
+							</option>
+						</select>
+						</div>
+					</div>-->
 		</div>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-lg-12 text-center">
+			<input type="reset" class="btn btn-secondary" value="Reset">
+			<a class="btn btn-secondary" th:href="@{'/compesationForm/cancel'}">Cancel</a>
+
+			<input type="submit" class="btn btn-primary" value="Save Changes"
+				th:value="${editMode}?'Save Compesation':'Create Compesation'">
+		</div>
+	</div>
+	<div class="alert alert-danger text-center" th:if="${formErrorMessage}" th:text="${formErrorMessage}">
+		Error MEssage</div>
+	<div class="alert alert-success text-center d-none" id="formSuccess" th:if="${editMode}">Success MEssage
+	</div>
+	</form>
+
+	</div>
 	</div>
 
 </body>
