@@ -7,12 +7,15 @@ import java.util.List;
 import com.brian.casouso.entity.Compesation;
 
 import com.brian.casouso.entity.CompesationFindForm;
+import com.brian.casouso.entity.MonthsAmount;
 
 
 public interface CompesationService {
 
-	public Iterable<Compesation> getCompesationsByDate(Long employeeId, CompesationFindForm cff);
-
+	public Iterable<MonthsAmount> getCompesationsByMonth(Long employeeId, CompesationFindForm cff);
+	
+	public Iterable<Compesation> getCompesationsByIdAndDate(Long employeeId, CompesationFindForm cff);
+	
 	public Compesation createCompesation(Compesation compesation) throws Exception;
 	
 	public Compesation getCompesationById(Long id) throws Exception;

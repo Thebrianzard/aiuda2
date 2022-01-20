@@ -75,8 +75,8 @@ public class Compesation implements Serializable {
 		return type;
 	}
 
-	public void setType(CompesationsType type) {
-		this.type = type;
+	public void setType(String type) {
+		this.type = CompesationsType.valueOf(type);
 	}
 
 	public Double getAmount() {

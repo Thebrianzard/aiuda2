@@ -1,6 +1,7 @@
 package com.brian.casouso.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Service;
 import com.brian.casouso.entity.Compesation;
 
 import com.brian.casouso.entity.CompesationFindForm;
-
+import com.brian.casouso.entity.Employee;
+import com.brian.casouso.entity.MonthsAmount;
 import com.brian.casouso.repository.CompesationRepository;
 import com.brian.casouso.repository.EmployeeRepository;
 
@@ -24,7 +26,42 @@ public class CompesationServiceImpl implements CompesationService {
 	EmployeeRepository emprepository;
 
 	@Override
-	public Iterable<Compesation> getCompesationsByDate(Long employeeId, CompesationFindForm cff) {
+	public Iterable<MonthsAmount> getCompesationsByMonth(Long employeeId, CompesationFindForm cff) {
+		List<Compesation> findByIdAndDate = repository.findByIdAndDate(employeeId, cff.getDesde(), cff.getHasta());
+		List<MonthsAmount> months = new ArrayList<>();
+		
+		Boolean isMoreThanOneYear = (cff.getHasta().getYear() - cff.getDesde().getYear()) >= 1;
+		
+		
+		String anterior = "";
+		for (Compesation compesation : findByIdAndDate) {
+			String monthAndYear;
+			if (isMoreThanOneYear) {
+				monthAndYear = compesation.getDate().getMonth().toString() + " - " + compesation.getDate().getYear();
+			} else {
+				monthAndYear = compesation.getDate().getMonth().toString();
+			}
+			
+			if (months.size() == 0) {
+				months.add(new MonthsAmount(monthAndYear, compesation.getAmount(), compesation.getDate().getMonth(), compesation.getDate().getYear()));
+				anterior = monthAndYear;
+			} else {
+				
+				if (monthAndYear.equals(anterior)) {
+					months.get(months.size() - 1).addAmount(compesation.getAmount());
+				} else {
+					months.add(new MonthsAmount(monthAndYear, compesation.getAmount(), compesation.getDate().getMonth(), compesation.getDate().getYear()));
+					anterior = monthAndYear;
+				}
+				
+			}
+		}
+		
+		return months;
+	}
+	
+	@Override
+	public Iterable<Compesation> getCompesationsByIdAndDate(Long employeeId, CompesationFindForm cff) {
 		return repository.findByIdAndDate(employeeId, cff.getDesde(), cff.getHasta());
 	}
 
@@ -81,7 +118,7 @@ public class CompesationServiceImpl implements CompesationService {
 	}
 	protected void mapCompesation(Compesation from, Compesation to) {
 		to.setId(from.getId());
-		to.setType(from.getType());
+		to.setType(from.getType().toString());
 		to.setAmount(from.getAmount());
 		to.setDescription(from.getDescription());
 		to.setDate(from.getDate());
@@ -89,9 +126,5 @@ public class CompesationServiceImpl implements CompesationService {
 
 	}
 
-	
-	
-
-	
 
 }
