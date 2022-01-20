@@ -16,10 +16,10 @@ public interface CompesationRepository extends CrudRepository<Compesation, Long>
 
 	public Optional<Compesation> findBytype(String type);
 	
-	
-	//@Query("SELECT e FROM compesation e "+ "WHERE e.date between :desde and :hasta")
-	//public List<Compesation> findByFilters(LocalDate desde, LocalDate hasta);
-	//@Query("Select distinct v from venta v join v.detallesventas d where d.fecha BETWEEN :desde AND :hasta")
+	@Query("SELECT c FROM Compesation c "
+			+ "WHERE c.employee_id = :employeeId and c.date BETWEEN :desde AND :hasta")
+	public List<Compesation> findByIdAndDate(Long employeeId, LocalDate desde, LocalDate hasta);
+
 
 	//	public List<Compesation> findByFilters(LocalDate desde, LocalDate hasta);
 

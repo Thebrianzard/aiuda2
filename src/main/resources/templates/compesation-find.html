@@ -25,21 +25,26 @@
 
 	<div class="card">
 		<div class="card-header">
-			<h4>Find Compesation</h4>
+
+			<h4>Date Range</h4>
 		</div>
 		<div class="card-body">
-				<form class="form" role="form" autocomplete="off" method="get" 
-				th:action="@{/findCompesation}">
+			
+			<form class="form" role="form" autocomplete="off" method="get" th:object="${compesationFindForm}"
+				th:action="@{'/findCompesation/' + ${employeeId}}">
 				<div class="form-group row">
 					<label class="col-lg-3 col-form-label form-control-label">start</label>
 					<div class="col-lg-9">
-						<input class="form-control" type="date" th:name="desde" th:field="${desde}">
+						<input class="form-control" id="desde" type="date" th:name="desde" th:field="${compesationFindForm.desde}">
+
 					</div>
 				</div>
 			<div class="form-group row">
 					<label class="col-lg-3 col-form-label form-control-label">end</label>
 					<div class="col-lg-9">
-						<input class="form-control" type="date" th:name="hasta" th:field="${hasta}">
+
+						<input class="form-control" id="hasta" type="date" th:name="hasta" th:field="${compesationFindForm.hasta}">
+
 					</div>
 				</div>
 				<div class="form-group row">
@@ -55,7 +60,7 @@
 		
 		<div class="card">
 			<div class="card-header">
-				<h4>User Information</h4>
+				<h4>History</h4>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">

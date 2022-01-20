@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.brian.casouso.entity.Compesation;
-import com.brian.casouso.entity.Employee;
+
+import com.brian.casouso.entity.CompesationFindForm;
+
 import com.brian.casouso.repository.CompesationRepository;
 import com.brian.casouso.repository.EmployeeRepository;
 
@@ -22,8 +24,8 @@ public class CompesationServiceImpl implements CompesationService {
 	EmployeeRepository emprepository;
 
 	@Override
-	public Iterable<Compesation> getAllCompesations() {
-		return repository.findAll();
+	public Iterable<Compesation> getCompesationsByDate(Long employeeId, CompesationFindForm cff) {
+		return repository.findByIdAndDate(employeeId, cff.getDesde(), cff.getHasta());
 	}
 
 	@Override

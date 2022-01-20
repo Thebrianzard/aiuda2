@@ -33,7 +33,6 @@ public class Employee implements Serializable {
 	private String firstName;
 	
 	@Column
-	@NotBlank(message = "campo requerido.")
 	private String midleName;
 	
 	@Column

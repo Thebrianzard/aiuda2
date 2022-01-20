@@ -1,5 +1,6 @@
 package com.brian.casouso.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +22,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	private boolean checkEmployeeAvailable(Employee employee) throws Exception {
-		Optional<Employee> employeeFound = repository.findByfirstName(employee.getFirstName());
+		String firstName = employee.getFirstName();
+		String midleName = employee.getMidleName();
+		String lastName = employee.getLastName();
+		LocalDate birthDate = employee.getBirthDate();
+		Optional<Employee> employeeFound = repository.verifyEmployee(firstName, midleName, lastName, birthDate);
 		if (employeeFound.isPresent()) {
-			throw new Exception("Usuario no disponible");
+			throw new Exception("This Employee already exists.");
 		}
 		return true;
 	}
