@@ -1,16 +1,21 @@
 package com.brian.casouso.service;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.ConstraintViolationException;
+
+import org.hibernate.loader.plan.exec.process.internal.AbstractRowReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.brian.casouso.entity.Compesation;
 
 import com.brian.casouso.entity.CompesationFindForm;
+import com.brian.casouso.entity.CompesationsType;
 import com.brian.casouso.entity.Employee;
 import com.brian.casouso.entity.MonthsAmount;
 import com.brian.casouso.repository.CompesationRepository;
@@ -67,6 +72,56 @@ public class CompesationServiceImpl implements CompesationService {
 
 	@Override
 	public Compesation createCompesation(Compesation compesation) throws Exception {
+		YearMonth date;
+		LocalDate desde, hasta;
+		List<Compesation> compesations;
+		
+		switch (compesation.getType()) {
+		case SALARY:
+			date = YearMonth.of(compesation.getDate().getYear(), compesation.getDate().getMonth());
+			desde = LocalDate.of(compesation.getDate().getYear(), compesation.getDate().getMonth(), 1);
+			hasta = date.atEndOfMonth();
+			compesations = repository.findByIdAndDate(compesation.getEmployee_id(), desde, hasta);
+			if (compesations.size() > 0)
+				throw new Exception("Only one Salary per month can be indtroduced.");
+			break;
+			
+		case BONUS:
+			
+			if (compesation.getAmount() <= 0)
+				throw new Exception("Amount must be greater than zero in Bonus.");
+				
+			if (compesation.getDescription().isBlank())
+				throw new Exception("Description in Bonus is required.");
+			break;
+			
+		case COMMISSION:
+			
+			if (compesation.getAmount() <= 0)
+				throw new Exception("Amount must be greater than zero in Comission.");
+				
+			if (compesation.getDescription().isBlank())
+				throw new Exception("Description in Comission is required.");
+			
+			break;
+		case ALLOWANCE: 
+			if (compesation.getAmount() <= 0)
+				throw new Exception("Amount must be greater than zero in Allowance.");
+				
+			if (compesation.getDescription().isBlank())
+				throw new Exception("Description in Allowance is required.");
+			break;
+			
+		case ADJUSTMENT:
+			
+			if (compesation.getAmount() == 0)
+				throw new Exception("Amount must not be zero in Adjustment.");
+				
+			if (compesation.getDescription().isBlank())
+				throw new Exception("Description in Adjustment is required.");
+			break;
+		}
+		
 		compesation = repository.save(compesation);
 		return compesation;
 	}
